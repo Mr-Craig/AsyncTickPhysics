@@ -1,0 +1,14 @@
+{
+    "Version": "1.1",
+    "Data": {
+        "Source": "r:\\ballgame\\unreal projects\\asynctickphysics\\test\\plugins\\asynctickphysics\\source\\asynctickphysics\\private\\asynctickphysics.cpp",
+        "ProvidedModule": "",
+        "PCH": "r:\\ballgame\\builds\\unrealengine\\engine\\intermediate\\build\\win64\\unrealeditor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "r:\\ballgame\\unreal projects\\asynctickphysics\\test\\plugins\\asynctickphysics\\intermediate\\build\\win64\\unrealeditor\\development\\asynctickphysics\\definitions.asynctickphysics.h",
+            "r:\\ballgame\\unreal projects\\asynctickphysics\\test\\plugins\\asynctickphysics\\source\\asynctickphysics\\public\\asynctickphysics.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

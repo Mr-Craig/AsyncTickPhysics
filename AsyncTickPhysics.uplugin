@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "AsyncTickPhysics",
+	"Description": "Using the Chaos async physics SUCKS! this makes it easier ))",
+	"Category": "Physics",
+	"CreatedBy": "claigoclaigo",
+	"CreatedByURL": "https://ballgame.dev",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "AsyncTickPhysics",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
