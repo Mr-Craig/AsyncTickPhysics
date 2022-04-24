@@ -12,4 +12,13 @@ public:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
+
+private:
+	// Delegates for the Physics Scene init and termination.
+	void PhysScene_OnPhysSceneInit(FPhysScene* Scene);
+	void PhysScene_OnPhysSceneTerm(FPhysScene* Scene);
+
+	// Delegate Handles
+	FDelegateHandle OnPhysSceneInit;
+	FDelegateHandle OnPhysSceneTerm;
 };

@@ -38,6 +38,7 @@ public class AsyncTickPhysics : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+				"Chaos",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
@@ -49,5 +50,7 @@ public class AsyncTickPhysics : ModuleRules
 				// ... add any modules that your module loads dynamically here ...
 			}
 			);
+			
+		SetupModulePhysicsSupport(Target);
 	}
 }
