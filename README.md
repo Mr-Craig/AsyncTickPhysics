@@ -7,6 +7,8 @@ This is a plugin to allows easy access to the new Async Physics introduced in UE
 - Override the Async Tick event
 - Use the ATP_* functions provided to manipulate the component
 
+You can only use this plugin in a c++ plugin, if you would need to convert your project create a new c++ class (Tools > Add new C++ class) and then Right Click your .uproject file and select Generate Visual studio project files.
+
 ### Example
 ![Image](https://i.imgur.com/UjC4Yyl.png)
 
