@@ -111,6 +111,8 @@ void UAsyncTickFunctions::ATP_AddImpulseAtPosition(UPrimitiveComponent* Componen
 				const Chaos::FVec3 AngularImpulse = Chaos::FVec3::CrossProduct(Position - WorldCOM, Impulse);
 				RigidHandle->SetLinearImpulse(RigidHandle->LinearImpulse() + Impulse, false);
 				RigidHandle->SetAngularImpulse(RigidHandle->AngularImpulse() + AngularImpulse, false);
+				
+				
 			}
 		}
 	}
@@ -120,9 +122,19 @@ FTransform UAsyncTickFunctions::ATP_GetTransform(UPrimitiveComponent* Component)
 {
 	if(IsValid(Component))
 	{
-		if(FBodyInstance* BodyInstance = Component->GetBodyInstance())
+		if(const FBodyInstance* BodyInstance = Component->GetBodyInstance())
 		{
-			return BodyInstance->GetUnrealWorldTransform();
+			if(auto Handle = BodyInstance->ActorHandle)
+			{
+				if(Chaos::FRigidBodyHandle_Internal* RigidHandle = Handle->GetPhysicsThreadAPI())
+				{
+					const Chaos::FRigidTransform3 WorldCOM = Chaos::FParticleUtilitiesGT::GetActorWorldTransform(RigidHandle);
+
+					return WorldCOM;
+				}
+			}
+
+			/*return BodyInstance->GetUnrealWorldTransform();*/
 		}
 	}
 	return FTransform();
