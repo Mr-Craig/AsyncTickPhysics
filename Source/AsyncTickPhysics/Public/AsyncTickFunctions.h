@@ -24,6 +24,10 @@ public:
 		static void ATP_AddImpulse(UPrimitiveComponent* Component, FVector Impulse, bool bVelChange);
 	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
 		static void ATP_AddImpulseAtPosition(UPrimitiveComponent* Component, FVector Position, FVector Impulse);
+	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
+    	static void ATP_AddAngularImpulseInRadians(UPrimitiveComponent* Component, FVector Torque, bool bVelChange);
+	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
+		static void ATP_AddAngularImpulseInDegrees(UPrimitiveComponent* Component, FVector Torque, bool bVelChange);
 
 	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
 		static FTransform ATP_GetTransform(UPrimitiveComponent* Component);

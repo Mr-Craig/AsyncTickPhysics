@@ -118,6 +118,37 @@ void UAsyncTickFunctions::ATP_AddImpulseAtPosition(UPrimitiveComponent* Componen
 	}
 }
 
+void UAsyncTickFunctions::ATP_AddAngularImpulseInRadians(UPrimitiveComponent* Component, FVector Torque,
+	bool bVelChange)
+{
+	if(!IsValid(Component))
+		return;
+
+	if(const FBodyInstance* BodyInstance = Component->GetBodyInstance())
+	{
+		if(auto Handle = BodyInstance->ActorHandle)
+		{
+			if(Chaos::FRigidBodyHandle_Internal* RigidHandle = Handle->GetPhysicsThreadAPI())
+			{
+				if(bVelChange)
+				{
+					const Chaos::FMatrix33 WorldI = Chaos::FParticleUtilitiesXR::GetWorldInertia(RigidHandle);
+					RigidHandle->SetAngularImpulse(RigidHandle->AngularImpulse() + (WorldI * Torque), false);
+				} else
+				{
+					RigidHandle->SetAngularImpulse(RigidHandle->AngularImpulse() + Torque, false);
+				}
+			}
+		}
+	}
+}
+
+void UAsyncTickFunctions::ATP_AddAngularImpulseInDegrees(UPrimitiveComponent* Component, FVector Torque,
+	bool bVelChange)
+{
+	ATP_AddAngularImpulseInRadians(Component, FMath::DegreesToRadians(Torque), bVelChange);
+}
+
 FTransform UAsyncTickFunctions::ATP_GetTransform(UPrimitiveComponent* Component)
 {
 	if(IsValid(Component))
