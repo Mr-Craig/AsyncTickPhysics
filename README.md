@@ -12,6 +12,8 @@ You can only use this plugin in a c++ project, if you need to convert your proje
 ### Example
 ![Image](https://i.imgur.com/UjC4Yyl.png)
 
+If you have issue with your components not moving, you need to call WakeAllRigidBodies as there is a bug in Chaos where it doesn't automatically wake up Rigid Bodies as shown in this video - https://www.youtube.com/watch?v=TNPTyQUS63A
+
 ## License
 
 MIT License
