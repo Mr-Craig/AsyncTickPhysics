@@ -1,6 +1,8 @@
 #include "AsyncTickFunctions.h"
 
 #include "PhysicsProxy/SingleParticlePhysicsProxy.h"
+#include "Components/PrimitiveComponent.h"
+#include "PhysicsEngine/BodyInstance.h"
 
 void UAsyncTickFunctions::ATP_AddForce(UPrimitiveComponent* Component, FVector Force, bool bAccelChange)
 {
