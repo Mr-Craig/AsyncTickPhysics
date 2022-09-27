@@ -2,6 +2,11 @@
 
 #include "AsyncTickManager.h"
 
+void AAsyncTickPawn::NativeAsyncTick(float DeltaTime)
+{
+	AsyncTick(DeltaTime);
+}
+
 void AAsyncTickPawn::BeginPlay()
 {
 	Super::BeginPlay();

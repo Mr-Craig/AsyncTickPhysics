@@ -12,6 +12,8 @@ class ASYNCTICKPHYSICS_API AAsyncTickPawn : public APawn
 public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "AsyncTick")
 		void AsyncTick(float DeltaTime);
+	
+	virtual void NativeAsyncTick(float DeltaTime);
 
 	virtual void BeginPlay() override;
 
