@@ -31,4 +31,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
 		static FTransform ATP_GetTransform(UPrimitiveComponent* Component);
+
+	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
+		static FVector ATP_GetLinearVelocity(UPrimitiveComponent* Component);
+	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
+		static FVector ATP_GetAngularVelocity(UPrimitiveComponent* Component);
 };

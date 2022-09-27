@@ -172,3 +172,43 @@ FTransform UAsyncTickFunctions::ATP_GetTransform(UPrimitiveComponent* Component)
 	}
 	return FTransform();
 }
+
+FVector UAsyncTickFunctions::ATP_GetLinearVelocity(UPrimitiveComponent* Component)
+{
+	if(IsValid(Component))
+	{
+		if(const FBodyInstance* BodyInstance = Component->GetBodyInstance())
+		{
+			if(auto Handle = BodyInstance->ActorHandle)
+			{
+				if(Chaos::FRigidBodyHandle_Internal* RigidHandle = Handle->GetPhysicsThreadAPI())
+				{
+					const Chaos::FRigidTransform3 WorldCOM = Chaos::FParticleUtilitiesGT::GetActorWorldTransform(RigidHandle);
+
+					return RigidHandle->V();
+				}
+			}
+		}
+	}
+	return FVector::ZeroVector;
+}
+
+FVector UAsyncTickFunctions::ATP_GetAngularVelocity(UPrimitiveComponent* Component)
+{
+	if(IsValid(Component))
+	{
+		if(const FBodyInstance* BodyInstance = Component->GetBodyInstance())
+		{
+			if(auto Handle = BodyInstance->ActorHandle)
+			{
+				if(Chaos::FRigidBodyHandle_Internal* RigidHandle = Handle->GetPhysicsThreadAPI())
+				{
+					const Chaos::FRigidTransform3 WorldCOM = Chaos::FParticleUtilitiesGT::GetActorWorldTransform(RigidHandle);
+
+					return RigidHandle->W();
+				}
+			}
+		}
+	}
+	return FVector::ZeroVector;
+}
