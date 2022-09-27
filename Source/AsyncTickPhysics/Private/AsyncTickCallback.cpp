@@ -21,7 +21,7 @@ void FAsyncPhysicsCallback::OnPreSimulate_Internal()
 		if(!Pawn.IsValid())
 			return;
 
-		Pawn->AsyncTick(GetDeltaTime_Internal());
+		Pawn->NativeAsyncTick(GetDeltaTime_Internal());
 	}
 }
 
