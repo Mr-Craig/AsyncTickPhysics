@@ -183,8 +183,6 @@ FVector UAsyncTickFunctions::ATP_GetLinearVelocity(UPrimitiveComponent* Componen
 			{
 				if(Chaos::FRigidBodyHandle_Internal* RigidHandle = Handle->GetPhysicsThreadAPI())
 				{
-					const Chaos::FRigidTransform3 WorldCOM = Chaos::FParticleUtilitiesGT::GetActorWorldTransform(RigidHandle);
-
 					return RigidHandle->V();
 				}
 			}
@@ -203,8 +201,6 @@ FVector UAsyncTickFunctions::ATP_GetAngularVelocity(UPrimitiveComponent* Compone
 			{
 				if(Chaos::FRigidBodyHandle_Internal* RigidHandle = Handle->GetPhysicsThreadAPI())
 				{
-					const Chaos::FRigidTransform3 WorldCOM = Chaos::FParticleUtilitiesGT::GetActorWorldTransform(RigidHandle);
-
 					return RigidHandle->W();
 				}
 			}
