@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "PhysicsProxy/SingleParticlePhysicsProxy.h"
 #include "AsyncTickFunctions.generated.h"
 
 /**
