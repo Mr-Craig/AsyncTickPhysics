@@ -70,6 +70,8 @@ void UAsyncTickFunctions::ATP_AddImpulseAtPosition(UPrimitiveComponent* Componen
 		const Chaos::FVec3 AngularImpulse = Chaos::FVec3::CrossProduct(Position - WorldCOM, Impulse);
 		RigidHandle->SetLinearImpulse(RigidHandle->LinearImpulse() + Impulse, false);
 		RigidHandle->SetAngularImpulse(RigidHandle->AngularImpulse() + AngularImpulse, false);
+		
+		
 	}
 }
 
@@ -123,6 +125,72 @@ FVector UAsyncTickFunctions::ATP_GetAngularVelocity(UPrimitiveComponent* Compone
 	return FVector::ZeroVector;
 }
 
+void UAsyncTickFunctions::ATP_SetLinearVelocity(UPrimitiveComponent* Component, FVector Velocity, bool bAddToCurrent,
+	FName BoneName)
+{
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component, BoneName))
+	{
+		if(bAddToCurrent)
+		{
+			RigidHandle->SetV(RigidHandle->V() + Velocity);
+		} else
+		{
+			RigidHandle->SetV(Velocity);
+		}
+	}
+}
+
+void UAsyncTickFunctions::ATP_SetAngularVelocityInRadians(UPrimitiveComponent* Component, FVector AngVelocity,
+	bool bAddToCurrent, FName BoneName)
+{
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component, BoneName))
+	{
+		if(bAddToCurrent)
+		{
+			RigidHandle->SetW(RigidHandle->W() + AngVelocity);
+		} else
+		{
+			RigidHandle->SetW(AngVelocity);
+		}
+	}
+}
+
+void UAsyncTickFunctions::ATP_SetAngularVelocityInDegrees(UPrimitiveComponent* Component, FVector AngVelocity,
+	bool bAddToCurrent, FName BoneName)
+{
+	ATP_SetAngularVelocityInRadians(Component, FMath::DegreesToRadians(AngVelocity), bAddToCurrent, BoneName);
+}
+
+void UAsyncTickFunctions::ATP_SetWorldLocation(UPrimitiveComponent* Component, FVector Location)
+{
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	{
+		const Chaos::FVec3 P = Location - RigidHandle->R().RotateVector(RigidHandle->CenterOfMass());
+		RigidHandle->SetX(P);
+	}
+}
+
+void UAsyncTickFunctions::ATP_SetWorldRotation(UPrimitiveComponent* Component, FRotator Rotation)
+{
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	{
+		const Chaos::FRotation3 Q = Rotation.Quaternion() * RigidHandle->RotationOfMass().Inverse();
+		RigidHandle->SetR(Q);
+	}
+}
+
+void UAsyncTickFunctions::ATP_SetWorldLocationAndRotation(UPrimitiveComponent* Component, FVector Location,
+	FRotator Rotation)
+{
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	{
+		const Chaos::FRotation3 Q = Rotation.Quaternion() * RigidHandle->RotationOfMass().Inverse();
+		const Chaos::FVec3 P = Location - Q.RotateVector(RigidHandle->CenterOfMass());
+		RigidHandle->SetR(Q);
+		RigidHandle->SetX(P);
+	}
+}
+
 FVector UAsyncTickFunctions::ATP_GetLinearVelocityAtPoint(UPrimitiveComponent* Component, FVector Point, FName BoneName)
 {
 	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component, BoneName))
@@ -142,12 +210,7 @@ Chaos::FRigidBodyHandle_Internal* UAsyncTickFunctions::GetInternalHandle(UPrimit
 {
 	if(IsValid(Component))
 	{
-		const FBodyInstance* BodyInstance = Component->GetBodyInstance();
-
-		if(const USkeletalMeshComponent* SkeletalMeshComponent = Cast<USkeletalMeshComponent>(Component))
-		{
-			BodyInstance = SkeletalMeshComponent->GetBodyInstance(BoneName);
-		}
+		const FBodyInstance* BodyInstance = Component->GetBodyInstance(BoneName);
 		
 		if(BodyInstance)
 		{

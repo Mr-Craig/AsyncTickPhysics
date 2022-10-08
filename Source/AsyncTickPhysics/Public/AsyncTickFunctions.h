@@ -39,6 +39,19 @@ public:
 		static FVector ATP_GetAngularVelocity(UPrimitiveComponent* Component);
 
 	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
+		static void ATP_SetLinearVelocity(UPrimitiveComponent* Component, FVector Velocity, bool bAddToCurrent, FName BoneName = NAME_None);
+	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
+		static void ATP_SetAngularVelocityInRadians(UPrimitiveComponent* Component, FVector AngVelocity, bool bAddToCurrent, FName BoneName = NAME_None);
+	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
+		static void ATP_SetAngularVelocityInDegrees(UPrimitiveComponent* Component, FVector AngVelocity, bool bAddToCurrent, FName BoneName = NAME_None);
+	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
+		static void ATP_SetWorldLocation(UPrimitiveComponent* Component, FVector Location);
+	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
+		static void ATP_SetWorldRotation(UPrimitiveComponent* Component, FRotator Rotation);
+	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
+		static void ATP_SetWorldLocationAndRotation(UPrimitiveComponent* Component, FVector Location, FRotator Rotation);
+
+	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
 		static FVector ATP_GetLinearVelocityAtPoint(UPrimitiveComponent* Component, FVector Point, FName BoneName = NAME_None);
 
 private:
