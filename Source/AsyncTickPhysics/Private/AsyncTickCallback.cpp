@@ -19,8 +19,8 @@ void FAsyncPhysicsCallback::OnPreSimulate_Internal()
 	for(const TWeakObjectPtr<AAsyncTickPawn> Pawn : Pawns)
 	{
 		if(!Pawn.IsValid())
-			return;
-
+			continue;
+		
 		Pawn->NativeAsyncTick(GetDeltaTime_Internal());
 	}
 }

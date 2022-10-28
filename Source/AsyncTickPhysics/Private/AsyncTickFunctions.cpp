@@ -70,8 +70,6 @@ void UAsyncTickFunctions::ATP_AddImpulseAtPosition(UPrimitiveComponent* Componen
 		const Chaos::FVec3 AngularImpulse = Chaos::FVec3::CrossProduct(Position - WorldCOM, Impulse);
 		RigidHandle->SetLinearImpulse(RigidHandle->LinearImpulse() + Impulse, false);
 		RigidHandle->SetAngularImpulse(RigidHandle->AngularImpulse() + AngularImpulse, false);
-		
-		
 	}
 }
 
