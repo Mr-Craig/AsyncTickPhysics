@@ -102,7 +102,7 @@ FTransform UAsyncTickFunctions::ATP_GetTransform(UPrimitiveComponent* Component)
 		const Chaos::FRigidTransform3 WorldCOM = Chaos::FParticleUtilitiesGT::GetActorWorldTransform(RigidHandle);
 		return WorldCOM;
 	}
-	return FTransform();
+	return Component ? Component->GetComponentTransform() : FTransform();
 }
 
 FVector UAsyncTickFunctions::ATP_GetLinearVelocity(UPrimitiveComponent* Component)
@@ -208,9 +208,7 @@ Chaos::FRigidBodyHandle_Internal* UAsyncTickFunctions::GetInternalHandle(UPrimit
 {
 	if(IsValid(Component))
 	{
-		const FBodyInstance* BodyInstance = Component->GetBodyInstance(BoneName);
-		
-		if(BodyInstance)
+		if(const FBodyInstance* BodyInstance = Component->GetBodyInstance(BoneName))
 		{
 			if(const auto Handle = BodyInstance->ActorHandle)
 			{
