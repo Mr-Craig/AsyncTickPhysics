@@ -4,9 +4,9 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "PhysicsEngine/BodyInstance.h"
 
-void UAsyncTickFunctions::ATP_AddForce(UPrimitiveComponent* Component, FVector Force, bool bAccelChange)
+void UAsyncTickFunctions::ATP_AddForce(UPrimitiveComponent* Component, FVector Force, bool bAccelChange, FName BoneName)
 {
-	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component, BoneName))
 	{
 		if(bAccelChange)
 		{
@@ -21,9 +21,9 @@ void UAsyncTickFunctions::ATP_AddForce(UPrimitiveComponent* Component, FVector F
 	}
 }
 
-void UAsyncTickFunctions::ATP_AddForceAtPosition(UPrimitiveComponent* Component, FVector Position, FVector Force)
+void UAsyncTickFunctions::ATP_AddForceAtPosition(UPrimitiveComponent* Component, FVector Position, FVector Force, FName BoneName)
 {
-	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component, BoneName))
 	{
 		const Chaos::FVec3 WorldCOM = Chaos::FParticleUtilitiesGT::GetCoMWorldPosition(RigidHandle);
 		const Chaos::FVec3 WorldTorque = Chaos::FVec3::CrossProduct(Position - WorldCOM, Force);
@@ -32,9 +32,9 @@ void UAsyncTickFunctions::ATP_AddForceAtPosition(UPrimitiveComponent* Component,
 	}
 }
 
-void UAsyncTickFunctions::ATP_AddTorque(UPrimitiveComponent* Component, FVector Torque, bool bAccelChange)
+void UAsyncTickFunctions::ATP_AddTorque(UPrimitiveComponent* Component, FVector Torque, bool bAccelChange, FName BoneName)
 {
-	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component, BoneName))
 	{
 		if(bAccelChange)
 		{
@@ -47,9 +47,9 @@ void UAsyncTickFunctions::ATP_AddTorque(UPrimitiveComponent* Component, FVector 
 	}
 }
 
-void UAsyncTickFunctions::ATP_AddImpulse(UPrimitiveComponent* Component, FVector Impulse, bool bVelChange)
+void UAsyncTickFunctions::ATP_AddImpulse(UPrimitiveComponent* Component, FVector Impulse, bool bVelChange, FName BoneName)
 {
-	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component, BoneName))
 	{
 		if(bVelChange)
 		{
@@ -62,9 +62,9 @@ void UAsyncTickFunctions::ATP_AddImpulse(UPrimitiveComponent* Component, FVector
 	}
 }
 
-void UAsyncTickFunctions::ATP_AddImpulseAtPosition(UPrimitiveComponent* Component, FVector Position, FVector Impulse)
+void UAsyncTickFunctions::ATP_AddImpulseAtPosition(UPrimitiveComponent* Component, FVector Position, FVector Impulse, FName BoneName)
 {
-	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component, BoneName))
 	{
 		const Chaos::FVec3 WorldCOM = Chaos::FParticleUtilitiesGT::GetCoMWorldPosition(RigidHandle);
 		const Chaos::FVec3 AngularImpulse = Chaos::FVec3::CrossProduct(Position - WorldCOM, Impulse);
@@ -74,9 +74,9 @@ void UAsyncTickFunctions::ATP_AddImpulseAtPosition(UPrimitiveComponent* Componen
 }
 
 void UAsyncTickFunctions::ATP_AddAngularImpulseInRadians(UPrimitiveComponent* Component, FVector Torque,
-	bool bVelChange)
+	bool bVelChange, FName BoneName)
 {
-	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component, BoneName))
 	{
 		if(bVelChange)
 		{
@@ -90,9 +90,9 @@ void UAsyncTickFunctions::ATP_AddAngularImpulseInRadians(UPrimitiveComponent* Co
 }
 
 void UAsyncTickFunctions::ATP_AddAngularImpulseInDegrees(UPrimitiveComponent* Component, FVector Torque,
-	bool bVelChange)
+	bool bVelChange, FName BoneName)
 {
-	ATP_AddAngularImpulseInRadians(Component, FMath::DegreesToRadians(Torque), bVelChange);
+	ATP_AddAngularImpulseInRadians(Component, FMath::DegreesToRadians(Torque), bVelChange, BoneName);
 }
 
 FTransform UAsyncTickFunctions::ATP_GetTransform(UPrimitiveComponent* Component)
@@ -105,18 +105,18 @@ FTransform UAsyncTickFunctions::ATP_GetTransform(UPrimitiveComponent* Component)
 	return Component ? Component->GetComponentTransform() : FTransform();
 }
 
-FVector UAsyncTickFunctions::ATP_GetLinearVelocity(UPrimitiveComponent* Component)
+FVector UAsyncTickFunctions::ATP_GetLinearVelocity(UPrimitiveComponent* Component, FName BoneName)
 {
-	if(const Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	if(const Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component, BoneName))
 	{
 		return RigidHandle->V();
 	}
 	return FVector::ZeroVector;
 }
 
-FVector UAsyncTickFunctions::ATP_GetAngularVelocity(UPrimitiveComponent* Component)
+FVector UAsyncTickFunctions::ATP_GetAngularVelocity(UPrimitiveComponent* Component, FName BoneName)
 {
-	if(const Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	if(const Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component, BoneName))
 	{
 		return RigidHandle->W();
 	}
@@ -159,12 +159,22 @@ void UAsyncTickFunctions::ATP_SetAngularVelocityInDegrees(UPrimitiveComponent* C
 	ATP_SetAngularVelocityInRadians(Component, FMath::DegreesToRadians(AngVelocity), bAddToCurrent, BoneName);
 }
 
-void UAsyncTickFunctions::ATP_SetWorldLocation(UPrimitiveComponent* Component, FVector Location)
+void UAsyncTickFunctions::ATP_SetWorldLocation(USceneComponent* Component, FVector Location)
 {
-	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	if(!Component)
+		return;
+
+	if(UPrimitiveComponent* PrimitiveComponent = Cast<UPrimitiveComponent>(Component))
 	{
-		const Chaos::FVec3 P = Location - RigidHandle->R().RotateVector(RigidHandle->CenterOfMass());
-		RigidHandle->SetX(P);
+		if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(PrimitiveComponent))
+		{
+			const Chaos::FVec3 P = Location - RigidHandle->R().RotateVector(RigidHandle->CenterOfMass());
+			RigidHandle->SetX(P);
+		}
+	}
+	else
+	{
+		Component->SetWorldLocation(Location);
 	}
 }
 
