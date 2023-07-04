@@ -1,6 +1,7 @@
 #include "AsyncTickManager.h"
 
 #include "PBDRigidsSolver.h"
+#include "Physics/Experimental/PhysScene_Chaos.h"
 
 bool FAsyncTickManager::GInitialized  = false;
 

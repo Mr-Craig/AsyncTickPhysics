@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/World.h"
 #include "AsyncTickCallback.h"
 #include "AsyncTickPawn.h"
 
