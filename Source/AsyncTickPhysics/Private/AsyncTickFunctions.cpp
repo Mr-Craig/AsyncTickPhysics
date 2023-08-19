@@ -214,6 +214,19 @@ FVector UAsyncTickFunctions::ATP_GetLinearVelocityAtPoint(UPrimitiveComponent* C
 	return FVector::ZeroVector;
 }
 
+FVector UAsyncTickFunctions::ATP_GetCoMPosition(UPrimitiveComponent* Component)
+{
+	if(Chaos::FRigidBodyHandle_Internal* RigidHandle = GetInternalHandle(Component))
+	{
+		if(ensure(RigidHandle->CanTreatAsKinematic()))
+		{
+			const bool bIsRigid = RigidHandle->CanTreatAsRigid();
+			return bIsRigid ? Chaos::FParticleUtilitiesGT::GetCoMWorldPosition(RigidHandle) : static_cast<Chaos::FVec3>(Chaos::FParticleUtilitiesGT::GetActorWorldTransform(RigidHandle).GetTranslation());
+		}
+	}
+	return FVector::ZeroVector;
+}
+
 Chaos::FRigidBodyHandle_Internal* UAsyncTickFunctions::GetInternalHandle(UPrimitiveComponent* Component, FName BoneName)
 {
 	if(IsValid(Component))

@@ -53,6 +53,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
 		static FVector ATP_GetLinearVelocityAtPoint(UPrimitiveComponent* Component, FVector Point, FName BoneName = NAME_None);
+	
+	UFUNCTION(BlueprintCallable, Category = "ATP - AsyncTickPhysics")
+		static FVector ATP_GetCoMPosition(UPrimitiveComponent* Component);
 
 private:
 	static Chaos::FRigidBodyHandle_Internal* GetInternalHandle(UPrimitiveComponent* Component, FName BoneName = NAME_None);
