@@ -4,6 +4,7 @@
 #include "Engine/World.h"
 #include "AsyncTickCallback.h"
 #include "AsyncTickPawn.h"
+#include "AsyncTickActorComponent.h"
 
 class ASYNCTICKPHYSICS_API FAsyncTickManager
 {
@@ -25,6 +26,9 @@ public:
 	void AddPawn(TWeakObjectPtr<AAsyncTickPawn> Pawn);
 	void RemovePawn(TWeakObjectPtr<AAsyncTickPawn> Pawn);
 
+	void AddActorComponent(TWeakObjectPtr<UAsyncTickActorComponent> ActorComponent);
+	void RemoveActorComponent(TWeakObjectPtr<UAsyncTickActorComponent> ActorComponent);
+
 	void RegisterCallbacks();
 	void UnregisterCallbacks();
 
@@ -33,6 +37,7 @@ private:
 	static TMap<FPhysScene*, FAsyncTickManager*> SceneToPhysicsManagerMap;
 
 	TArray<TWeakObjectPtr<AAsyncTickPawn>> Pawns;
+	TArray<TWeakObjectPtr<UAsyncTickActorComponent>> ActorComponents;
 	
 	FDelegateHandle OnPhysScenePreTickHandle;
 

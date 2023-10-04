@@ -15,13 +15,23 @@ void FAsyncPhysicsCallback::OnPreSimulate_Internal()
 		return;
 
 	const TArray<TWeakObjectPtr<AAsyncTickPawn>>& Pawns = Input->Pawns;
-
+	const TArray<TWeakObjectPtr<UAsyncTickActorComponent>>& ActorComponents = Input->ActorComponents;
+	
 	for(const TWeakObjectPtr<AAsyncTickPawn> Pawn : Pawns)
 	{
 		if(!Pawn.IsValid())
 			continue;
 		
 		Pawn->NativeAsyncTick(GetDeltaTime_Internal());
+	}
+
+		
+	for(const TWeakObjectPtr<UAsyncTickActorComponent> ActorComponent : ActorComponents)
+	{
+		if(!ActorComponent.IsValid())
+			continue;
+		
+		ActorComponent->NativeAsyncTick(GetDeltaTime_Internal());
 	}
 }
 
