@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "AsyncTickPawn.h"
+#include "AsyncTickActorComponent.h"
 #include "PhysicsPublic.h"
 #include "Chaos/SimCallbackInput.h"
 #include "Chaos/SimCallbackObject.h"
@@ -12,6 +13,8 @@
 struct FAsyncPhysicsInput : public Chaos::FSimCallbackInput
 {
 	TArray<TWeakObjectPtr<AAsyncTickPawn>> Pawns;
+	TArray<TWeakObjectPtr<UAsyncTickActorComponent>> ActorComponents;
+	
 	TWeakObjectPtr<UWorld> World;
 	bool DebugMessages;
 
@@ -19,6 +22,7 @@ struct FAsyncPhysicsInput : public Chaos::FSimCallbackInput
 	void Reset()
 	{
 		Pawns.Reset();
+		ActorComponents.Reset();
 		World.Reset();
 	}
 };

@@ -34,6 +34,10 @@ FAsyncTickManager::~FAsyncTickManager()
 	{
 		this->RemovePawn(Pawns.Last());
 	}
+	while(ActorComponents.Num() > 0)
+	{
+		this->RemoveActorComponent(ActorComponents.Last());
+	}
 }
 
 void FAsyncTickManager::OnPostWorldInitialization(UWorld* InWorld, const UWorld::InitializationValues)
@@ -89,6 +93,21 @@ void FAsyncTickManager::RemovePawn(TWeakObjectPtr<AAsyncTickPawn> Pawn)
 		Pawns.Remove(Pawn);
 	}
 }
+void FAsyncTickManager::AddActorComponent(TWeakObjectPtr<UAsyncTickActorComponent> ActorComponent)
+{
+	if(ActorComponent.IsValid())
+	{
+		ActorComponents.Add(ActorComponent);
+	}
+}
+
+void FAsyncTickManager::RemoveActorComponent(TWeakObjectPtr<UAsyncTickActorComponent> ActorComponent)
+{
+	if(ActorComponent.IsValid())
+	{
+		ActorComponents.Remove(ActorComponent);
+	}
+}
 
 void FAsyncTickManager::RegisterCallbacks()
 {
@@ -130,9 +149,14 @@ void FAsyncTickManager::ScenePreTick(FPhysScene* PhysScene, float DeltaTime)
 	AsyncInput->World = World;
 	// no realloc )))
 	AsyncInput->Pawns.Reserve(Pawns.Num());
+	AsyncInput->ActorComponents.Reserve(ActorComponents.Num());
 
 	for(const TWeakObjectPtr<AAsyncTickPawn> Pawn : Pawns)
 	{
 		AsyncInput->Pawns.Add(Pawn);
+	}
+	for(const TWeakObjectPtr<UAsyncTickActorComponent> ActorComponent : ActorComponents)
+	{
+		AsyncInput->ActorComponents.Add(ActorComponent);
 	}
 }
