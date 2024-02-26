@@ -1,4 +1,4 @@
-﻿#include "..\Public\AsyncTickActorComponent.h"
+﻿#include "AsyncTickActorComponent.h"
 
 #include "AsyncTickManager.h"
 
